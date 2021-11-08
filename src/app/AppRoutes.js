@@ -8,7 +8,7 @@ import Catagory from './manage/Catagory';
 import Product from './manage/Product';
 import Schedule from './manage/Schedule';
 import MainDashboard from './charts/ChartJs';
-
+import Dashboard from '../app/dashboard/Dashboard';
 
 // Admin Route
 import BranchRouter from './RouterHelper/BranchRouter';
@@ -20,7 +20,7 @@ import AdminDashboard from './admin/AdminDashboard';
 // Branch Route
 
 
-const Dashboard = lazy(() => import('./dashboard/Dashboard'));
+// const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
 const Buttons = lazy(() => import('./basic-ui/Buttons'));
 const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
@@ -49,7 +49,7 @@ class AppRoutes extends Component {
     return (
       <Suspense fallback={<Spinner/>}>
         <Switch>
-          <BranchRouter exact path="/" component={ Dashboard } />
+          <BranchRouter exact path="/dashboard" component={ Dashboard } />
 
           <BranchRouter path="/manage/catagory" component={ Catagory } />
           <BranchRouter path="/manage/product" component={ Product } />
