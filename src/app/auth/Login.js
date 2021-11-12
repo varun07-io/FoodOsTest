@@ -11,7 +11,7 @@ import { signin,authenticate,isAutheticated} from '../apiHandler/api'
 const Login = () => {
 
 
-
+  const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
 
   const { user } = isAutheticated();
@@ -22,7 +22,7 @@ const Login = () => {
 
   const onBranchSignin = (e) => {
       e.preventDefault();
-      signin({password})
+      signin({email,password})
       .then((res) => {
         console.log("OII",res)
         authenticate(res,() => {
@@ -61,12 +61,12 @@ const Login = () => {
                 <div className="brand-logo">
                   <img src={require("../../assets/images/logo.svg")} alt="logo" />
                 </div>
-                <h4>Akashya Admin Panel</h4>
+                <h4>Restaurant Admin Panel</h4>
                 <h6 className="font-weight-light">Enter the password to signin</h6>
                 <Form className="pt-3">
-                  {/* <Form.Group className="d-flex search-field">
-                    <Form.Control type="email" placeholder="Username" size="lg" className="h-auto" />
-                  </Form.Group> */}
+                  <Form.Group className="d-flex search-field">
+                    <Form.Control type="email" onChange={(e) => setemail(e.target.value)} placeholder="Username" size="lg" className="h-auto" />
+                  </Form.Group>
                   <Form.Group className="d-flex search-field">
                     <Form.Control type="password" onChange={(e) => setpassword(e.target.value)} placeholder="Password" size="lg" className="h-auto" />
                   </Form.Group>

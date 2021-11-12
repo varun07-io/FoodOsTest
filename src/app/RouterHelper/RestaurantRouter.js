@@ -2,12 +2,12 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { isAutheticated } from "../apiHandler/api";
 
-const BranchRouter = ({ component: Component, ...rest }) => {
+const RestaurantRouter = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       render={props =>
-        isAutheticated() && isAutheticated().data.branch.role === 1 ? (
+        isAutheticated() && isAutheticated().user.role === "restaurant" ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -22,4 +22,4 @@ const BranchRouter = ({ component: Component, ...rest }) => {
   );
 };
 
-export default BranchRouter;
+export default RestaurantRouter;

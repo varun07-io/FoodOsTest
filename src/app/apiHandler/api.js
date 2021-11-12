@@ -8,7 +8,7 @@ import axios from "axios";
 
 export const authenticate = (data, next) => {
     if (typeof window !== "undefined") {
-        localStorage.setItem("jwt", JSON.stringify(data));
+        localStorage.setItem("token", JSON.stringify(data.data));
         next();
     }
 };
@@ -17,10 +17,9 @@ export const isAutheticated = () => {
     if (typeof window == "undefined") {
         return false;
     }
-    if (localStorage.getItem("jwt")) {
-        const DATA = localStorage.getItem("jwt")
-        console.log("Local Storage : ", JSON.parse(localStorage.getItem("jwt")))
-        return JSON.parse(localStorage.getItem("jwt"));
+    if (localStorage.getItem("token")) {
+        console.log("Local Storage : ", JSON.parse(localStorage.getItem("token")))
+        return JSON.parse(localStorage.getItem("token"));
     } else {
         return false;
     }
@@ -28,34 +27,34 @@ export const isAutheticated = () => {
 
 
 export const createTax = data => {
-    return axios.post(`${API}/admin/tax/manage/tax/create`,data)
-    .then((res) => {
-        console.log("yes", res)
-        return res
-    })
-    .catch((err) => {
-        console.log("Couldn't create Tax")
-    });
+    return axios.post(`${API}/admin/tax/manage/tax/create`, data)
+        .then((res) => {
+            console.log("yes", res)
+            return res
+        })
+        .catch((err) => {
+            console.log("Couldn't create Tax")
+        });
 }
 
 //Package API
 
 export const createPackage = data => {
-    return axios.post(`${API}/admin/manage/pacakge/create`,data)
-    .then((res) => {
-        console.log("yes", res)
-        return res
-    })
-    .catch((err) => {
-        console.log("Couldn't create Package")
-    });
+    return axios.post(`${API}/admin/manage/pacakge/create`, data)
+        .then((res) => {
+            console.log("yes", res)
+            return res
+        })
+        .catch((err) => {
+            console.log("Couldn't create Package")
+        });
 }
 
 
 
 // *? Admin Auth
 export const signin = data => {
-    return axios.post(`${API}/admin/auth/branch`, data)
+    return axios.post(`${API}/signin`, data)
         .then((res) => {
             console.log(res)
             return res;
@@ -67,8 +66,8 @@ export const signin = data => {
 
 export const signout = () => {
     if (typeof window !== "undefined") {
-        localStorage.removeItem("jwt");
-      }
+        localStorage.removeItem("token");
+    }
 }
 
 
