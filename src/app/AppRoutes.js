@@ -11,7 +11,7 @@ import MainDashboard from './charts/ChartJs';
 import Dashboard from '../app/dashboard/Dashboard';
 
 // Admin Route
-import BranchRouter from './RouterHelper/BranchRouter';
+import RestaurantRoute from './RouterHelper/RestaurantRouter';
 import AdminRouter from './RouterHelper/AdminRouter'
 import CreateProduct from './manage/CreateProduct';
 import Package from './manage/Package';
@@ -49,15 +49,15 @@ class AppRoutes extends Component {
     return (
       <Suspense fallback={<Spinner/>}>
         <Switch>
-          <BranchRouter exact path="/dashboard" component={ Dashboard } />
+          <RestaurantRoute exact path="/" component={ Dashboard } />
 
-          <BranchRouter path="/manage/catagory" component={ Catagory } />
-          <BranchRouter path="/manage/product" component={ Product } />
-          <BranchRouter path="/manage/createmenu" component={ CreateMenu } />
-          <BranchRouter path="/manage/createproduct" component={  CreateProduct } />
-          <BranchRouter path="/manage/wallet" component={ Wallet } />
-          <BranchRouter path="/manage/schedule" component={ Schedule } />
-          <BranchRouter path="/manage/package" component={ Package } />
+          <RestaurantRoute path="/manage/catagory" component={ Catagory } />
+          <RestaurantRoute path="/manage/product" component={ Product } />
+          <RestaurantRoute path="/manage/createmenu" component={ CreateMenu } />
+          <RestaurantRoute path="/manage/createproduct" component={  CreateProduct } />
+          <RestaurantRoute path="/manage/wallet" component={ Wallet } />
+          <RestaurantRoute path="/manage/schedule" component={ Schedule } />
+          <RestaurantRoute path="/manage/package" component={ Package } />
          
           <Route path="/login" component={ Login } />
 

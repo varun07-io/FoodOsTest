@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { isAutheticated } from "../apiHandler/api";
 
-const BranchRouter = ({ component: Component, ...rest }) => {
+const RestaurantRouter = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -22,4 +22,4 @@ const BranchRouter = ({ component: Component, ...rest }) => {
   );
 };
 
-export default BranchRouter;
+export default RestaurantRouter;
