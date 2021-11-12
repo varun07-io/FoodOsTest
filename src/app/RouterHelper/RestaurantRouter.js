@@ -7,7 +7,7 @@ const RestaurantRouter = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        isAutheticated() && isAutheticated().data.branch.role === 1 ? (
+        isAutheticated() && isAutheticated().user.role === "restaurant" ? (
           <Component {...props} />
         ) : (
           <Redirect
