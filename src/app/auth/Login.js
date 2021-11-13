@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import bsCustomFileInput from 'bs-custom-file-input';
 import { Redirect } from "react-router-dom";
 
-import { signin,authenticate,isAutheticated} from '../apiHandler/api'
+import { signin,authenticate,isAutheticated,isProfileCompleted} from '../apiHandler/api'
 
 
 const Login = () => {
@@ -38,10 +38,16 @@ const Login = () => {
 
   const performRedirect = () => {
     if (didRedirect) {
-      if (user && user.role === 1) {
-        return <Redirect to="/" />;
+      if (user && user.role === "restaurant") {
+        if(isProfileCompleted() === 7)
+        {
+          return <Redirect to="/profile" />;
+        }
+        if(isProfileCompleted() === 1){
+          return <Redirect to="/" />;
+        }
       } else {
-        return <Redirect to="/user/dashboard" />;
+        return <Redirect to="/admin" />;
       }
     }
     if (isAutheticated()) {

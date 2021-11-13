@@ -74,11 +74,11 @@ const Navbar = () => {
             <button onClick={userSignout} className="btn btn-danger btn-lg font-weight-medium auth-form-btn" style={{margin:10}} to="/dashboard">Sign Out</button>
 
           </ul>
-          <form className="ml-auto search-form d-none d-md-block" action="#">
+          {/* <form className="ml-auto search-form d-none d-md-block" action="#">
             <div className="form-group">
               <input type="search" className="form-control" placeholder="Search Here" />
             </div>
-          </form>
+          </form> */}
           <ul className="navbar-nav navbar-nav-right">
           <li className="nav-item  nav-profile border-0 pl-4">
               <Dropdown>
@@ -124,7 +124,7 @@ const Navbar = () => {
                 </Dropdown.Menu>
               </Dropdown>
             </li>
-            <li className="nav-item  nav-profile border-0">
+            {/* <li className="nav-item  nav-profile border-0">
               <Dropdown>
                 <Dropdown.Toggle className="nav-link count-indicator p-0 toggle-arrow-hide bg-transparent">
                   <i className="mdi mdi-email-outline"></i>
@@ -164,7 +164,7 @@ const Navbar = () => {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-            </li>
+            </li> */}
             
             
             <li className="nav-item  nav-profile border-0">
@@ -195,7 +195,7 @@ const Navbar = () => {
                   <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center border-0" onClick={evt =>evt.preventDefault()}>
                     <Trans>Check Inbox</Trans>
                   </Dropdown.Item>
-                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center border-0" onClick={evt =>evt.preventDefault()}>
+                  <Dropdown.Item className="dropdown-item preview-item d-flex align-items-center border-0" onClick={userSignout}>
                     <Trans>Sign Out</Trans>
                   </Dropdown.Item>
                 </Dropdown.Menu>
