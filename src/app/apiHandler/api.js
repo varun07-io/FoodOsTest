@@ -87,6 +87,19 @@ export const isProfileCompleted = async() => {
 
 }
 
+export const getProfileId = async() => {
+    const Id = await getUserIdFromToken();
+    let Token = await getUserToken()
+    return axios.get(`${API}/profile/id`, { headers: { Authorization: `Bearer ${Token}` } })
+        .then(res => {
+            console.log(res)
+            return res.data.id
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
 
 // ** Get User Id
 export const getUserIdFromToken = () => {
@@ -107,6 +120,17 @@ export const createRestaurantProfile = async(data) => {
         })
 }
 
+// *? Create Menu
+export const createMenuInRestaurant = async(data) => {
+    let Token = await getUserToken()
+    return axios.post(`${API}/create/menu`, data, { headers: { Authorization: `Bearer ${Token}` } })
+        .then(res => {
+            return res
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
 
 // *? Branch
 
