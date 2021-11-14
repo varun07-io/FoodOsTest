@@ -58,6 +58,7 @@ class AppRoutes extends Component {
           <RestaurantRoute path="/manage/package" component={ Package } />
          
           <Route path="/login" component={ Login } />
+          <Route exact path="/profile" component={ Package } />
 
 
 
