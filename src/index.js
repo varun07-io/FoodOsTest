@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 
 
 ReactDOM.render(
-  <BrowserRouter basename="/akshayaa/admin">
+  <BrowserRouter basename="/restaurant">
     <App />
   </BrowserRouter>
 , document.getElementById('root'));

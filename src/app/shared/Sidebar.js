@@ -54,7 +54,7 @@ class Sidebar extends Component {
     return (
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <div className="text-center sidebar-brand-wrapper d-flex align-items-center">
-          <h1 style={{textAlign:"center", fontWeight:"800", marginLeft:"4.5rem", color:"#69DADB"}}>FoodOs</h1>
+          <h1 style={{textAlign:"center", fontWeight:"800", marginLeft:"4.5rem", color:"#9EFF55"}}>FoodOs</h1>
           {/* <a className="sidebar-brand brand-logo" href="index.html"><img src={require("../../assets/images/logo.svg")} alt="logo" /></a>
           <a className="sidebar-brand brand-logo-mini pt-3" href="index.html"><img src={require("../../assets/images/logo-mini.svg" )} alt="logo" /></a> */}
         </div>
@@ -69,8 +69,8 @@ class Sidebar extends Component {
                       <div className="dot-indicator bg-success"></div>
                     </div>
                     <div className="text-wrapper">
-                      <p className="profile-name">Allen Moreno</p>
-                      <p className="designation">Premium user</p>
+                      <p className="profile-name">Restaurant Name</p>
+                      <p className="designation">Restaurant Status</p>
                     </div>
                     
                   </div>
@@ -106,8 +106,8 @@ class Sidebar extends Component {
             </div>
           </li>
       
-          <li className={ this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link" to="/dashboard">
+          <li className={ this.isPathActive('/') ? 'nav-item active' : 'nav-item' }>
+            <Link className="nav-link" to="/">
               <i className="mdi mdi-television menu-icon"></i>
               <span className="menu-title"><Trans>Dashboard</Trans></span>
             </Link>

@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import bsCustomFileInput from 'bs-custom-file-input';
 import { Redirect } from "react-router-dom";
 
-import { signin,authenticate,isAutheticated} from '../apiHandler/api'
+import { signin,authenticate,isAutheticated, getUserIdFromToken, isProfileCompleted} from '../apiHandler/api'
 
 
 const Login = () => {
@@ -17,6 +17,7 @@ const Login = () => {
   const { user } = isAutheticated();
 
   const [didRedirect, setdidRedirect] = useState(false);
+  const [redirectToProfile, setredirectToProfile] = useState(false);
 
   const [wrongPassword, setwrongPassword] = useState(false);
 
@@ -24,9 +25,9 @@ const Login = () => {
       e.preventDefault();
       signin({email,password})
       .then((res) => {
-        console.log("OII",res)
         authenticate(res,() => {
-          setdidRedirect(true)
+            
+            setdidRedirect(true)
         });
       })
       .catch((err) => {
@@ -38,10 +39,10 @@ const Login = () => {
 
   const performRedirect = () => {
     if (didRedirect) {
-      if (user && user.role === 1) {
+      if (user && user.role === "restaurant") {
         return <Redirect to="/" />;
       } else {
-        return <Redirect to="/user/dashboard" />;
+        return <Redirect to="/admin" />;
       }
     }
     if (isAutheticated()) {
@@ -50,10 +51,20 @@ const Login = () => {
   };
 
 
+  const performRedirectToProfile = () => {
+    if (redirectToProfile) {
+   
+        return <Redirect to="/profile" />;
+   
+  }
+}
+
+
 
     return (
         <div>
           {performRedirect()}
+          {performRedirectToProfile()}
         <div className="d-flex align-items-center auth px-0" style={{marginTop:100}}>
           <div className="row w-100 mx-0">
             <div className="col-lg-4 mx-auto">

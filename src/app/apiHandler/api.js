@@ -2,10 +2,6 @@ import { API, API_PROD } from "../../backend";
 import axios from "axios";
 
 
-
-
-
-
 export const authenticate = (data, next) => {
     if (typeof window !== "undefined") {
         localStorage.setItem("token", JSON.stringify(data.data));
@@ -18,7 +14,7 @@ export const isAutheticated = () => {
         return false;
     }
     if (localStorage.getItem("token")) {
-        console.log("Local Storage : ", JSON.parse(localStorage.getItem("token")))
+        // console.log("Local Storage : ", JSON.parse(localStorage.getItem("token")))
         return JSON.parse(localStorage.getItem("token"));
     } else {
         return false;
@@ -56,7 +52,7 @@ export const createPackage = data => {
 export const signin = data => {
     return axios.post(`${API}/signin`, data)
         .then((res) => {
-            console.log(res)
+            // console.log(res)
             return res;
         })
         .catch((err) => {
@@ -71,6 +67,28 @@ export const signout = () => {
 }
 
 
+
+// ** Profile Status
+export const isProfileCompleted = async() => {
+    const id = await getUserIdFromToken();
+
+    return axios.get(`${API}/profile/status/${id}`)
+        .then((res) => {
+            console.log(res.data.status)
+            return res.data.status
+        })
+        .catch((err) => {
+            console.log("Error in Profile Checkking: ", err)
+        })
+
+}
+
+
+// ** Get User Id
+export const getUserIdFromToken = () => {
+    // console.log("OKOK: ", JSON.parse(localStorage.getItem("token")).user)
+    return JSON.parse(localStorage.getItem("token")).user._id
+}
 
 // *? Branch
 
