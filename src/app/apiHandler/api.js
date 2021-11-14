@@ -47,6 +47,10 @@ export const createPackage = data => {
 }
 
 
+export const getUserToken = () => {
+    return JSON.parse(localStorage.getItem("token")).token
+}
+
 
 // *? Admin Auth
 export const signin = data => {
@@ -89,6 +93,20 @@ export const getUserIdFromToken = () => {
     // console.log("OKOK: ", JSON.parse(localStorage.getItem("token")).user)
     return JSON.parse(localStorage.getItem("token")).user._id
 }
+
+// *? Create Profile
+
+export const createRestaurantProfile = async(data) => {
+    let Token = await getUserToken()
+    return axios.post(`${API}/create/restaurant`, data, { headers: { Authorization: `Bearer ${Token}` } })
+        .then(res => {
+            return res
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
 
 // *? Branch
 
