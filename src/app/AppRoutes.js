@@ -19,6 +19,7 @@ import Wallet from './manage/Wallet';
 import AdminDashboard from './admin/AdminDashboard';
 // Branch Route
 
+import UserCompletion from '../app/manage/UserCompletion.js'
 
 // const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
@@ -58,7 +59,7 @@ class AppRoutes extends Component {
           <RestaurantRoute path="/manage/wallet" component={ Wallet } />
           <RestaurantRoute path="/manage/schedule" component={ Schedule } />
           <RestaurantRoute path="/manage/package" component={ Package } />
-         
+          
           <Route path="/login" component={ Login } />
 
 
@@ -86,6 +87,9 @@ class AppRoutes extends Component {
 
 
 
+
+
+          <Route path="/usercompletion" component={ UserCompletion } />
 
 
           <Route path="/basic-ui/buttons" component={ Buttons } />
