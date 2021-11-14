@@ -70,6 +70,7 @@ export const signout = () => {
 
 // ** Profile Status
 export const isProfileCompleted = (data) => {
+    console.log("data: ", data)
     return axios.post(`${API}/profile/status`, data)
         .then((res) => {
             return res
@@ -79,6 +80,11 @@ export const isProfileCompleted = (data) => {
         })
 }
 
+// ** Get User Id
+export const getUserIdFromToken = () => {
+    console.log("OKOK: ", JSON.parse(localStorage.getItem("token")).user)
+    return JSON.parse(localStorage.getItem("token")).user._id
+}
 
 // *? Branch
 

@@ -50,7 +50,7 @@ class AppRoutes extends Component {
       <Suspense fallback={<Spinner/>}>
         <Switch>
           <RestaurantRoute exact path="/" component={ Dashboard } />
-          <RestaurantRoute exact path="/profile" component={ Profile } />
+          <RestaurantRoute exact path="/profile" component={ Package } />
           <RestaurantRoute path="/manage/createmenu" component={ CreateMenu } />
           <RestaurantRoute path="/manage/createproduct" component={  CreateProduct } />
           <RestaurantRoute path="/manage/wallet" component={ Wallet } />
