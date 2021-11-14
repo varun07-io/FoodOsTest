@@ -2,10 +2,6 @@ import { API, API_PROD } from "../../backend";
 import axios from "axios";
 
 
-
-
-
-
 export const authenticate = (data, next) => {
     if (typeof window !== "undefined") {
         localStorage.setItem("token", JSON.stringify(data.data));
@@ -71,6 +67,24 @@ export const signout = () => {
 }
 
 
+
+// ** Profile Status
+export const isProfileCompleted = (data) => {
+    console.log("data: ", data)
+    return axios.post(`${API}/profile/status`, data)
+        .then((res) => {
+            return res
+        })
+        .catch((err) => {
+            console.log("Error in Profile Checkking: ", err)
+        })
+}
+
+// ** Get User Id
+export const getUserIdFromToken = () => {
+    console.log("OKOK: ", JSON.parse(localStorage.getItem("token")).user)
+    return JSON.parse(localStorage.getItem("token")).user._id
+}
 
 // *? Branch
 

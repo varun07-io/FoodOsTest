@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { isAutheticated } from "../apiHandler/api";
+import { isAutheticated, isProfileCompleted } from "../apiHandler/api";
 
 const RestaurantRouter = ({ component: Component, ...rest }) => {
   return (

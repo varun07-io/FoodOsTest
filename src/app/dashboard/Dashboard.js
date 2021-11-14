@@ -4,7 +4,7 @@ import OutOrders from './OutOrders';
 import Feeds from './Feeds';
 import React from 'react'
 
-function Dashboard() {
+function    Dashboard() {
   return(
     <div>
       <Feeds />
