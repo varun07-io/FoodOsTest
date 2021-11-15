@@ -100,6 +100,19 @@ export const getProfileId = async() => {
         })
 }
 
+export const getProfileData = async() => {
+    const Id = await getUserIdFromToken();
+    let Token = await getUserToken()
+    return axios.get(`${API}/profile/data`, { headers: { Authorization: `Bearer ${Token}` } })
+        .then(res => {
+            console.log(res)
+            return res.data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
 
 // ** Get User Id
 export const getUserIdFromToken = () => {
@@ -132,12 +145,51 @@ export const createMenuInRestaurant = async(data) => {
         })
 }
 
+// *? Edit Menu
+export const editMenuInRestaurant = async(data) => {
+    let Token = await getUserToken()
+    return axios.put(`${API}/edit/menu/${data.menuid}`, data, { headers: { Authorization: `Bearer ${Token}` } })
+        .then(res => {
+            return res
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+
+// *? Delete Menu
+export const deleteMenuInRestaurant = async(data) => {
+    let Token = await getUserToken();
+    return axios.delete(`${API}/delete/menu/${data.id}`, { headers: { Authorization: `Bearer ${Token}` } })
+        .then(res => {
+            return res
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
 
 // ** Get All Menu
 
 export const getAllMenus = async() => {
     let Token = await getUserToken()
     return axios.get(`${API}/all/menu/1234`, { headers: { Authorization: `Bearer ${Token}` } }).then(res => {
+            return res
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+// ** Get A Menu
+
+export const getAMenu = async(menuId) => {
+    let Token = await getUserToken()
+    let profileId = await getProfileId();
+    return axios.get(`${API}/a/menu/${profileId}/menuid/${menuId}`, { headers: { Authorization: `Bearer ${Token}` } })
+        .then(res => {
             return res
         })
         .catch(err => {

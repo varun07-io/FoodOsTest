@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { createMenuInRestaurant, getAllMenus, getProfileId } from '../apiHandler/api';
+import { createMenuInRestaurant, deleteMenuInRestaurant, editMenuInRestaurant, getAllMenus, getAMenu, getProfileId } from '../apiHandler/api';
 import Spinner1 from './helper/Spinner';
 import 'firebase/storage'
 import firebase from "firebase/app";
@@ -136,6 +136,67 @@ function CreateProduct() {
       return <Alert severity="success">Mebu Created Successful!</Alert>
     }
 
+    const [menuEditStatus, setmenuEditStatus] = useState(false);
+    
+
+    const [menuid, setmenuid] = useState('');
+
+    function editMenu(id){
+      setmenuEditStatus(true)
+      getAMenu(id).then(res => {
+        console.log("id -- > ",res.data.data[0]);
+          setmenuid(res.data.data[0]._id)
+
+          setname(res.data.data[0].name)
+          setimage(res.data.data[0].image)
+          setmenu_key_name(res.data.data[0].menu_key_name)
+          setdescription(res.data.data[0].description)
+          setprice(res.data.data[0].price)
+          setcategory(res.data.data[0].category)
+          setfood_type(res.data.data[0].food_type)
+          setcuisine(res.data.data[0].cuisine)
+          setis_customisable(res.data.data[0].is_customisable)
+          setkeys(res.data.data[0].keys)
+          setingredients(res.data.data[0].ingredients)
+          setadd_character(res.data.data[0].add_character)
+          setprofile_id(res.data.data[0].profile_id)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    } 
+
+
+
+
+    const onEditMenuSubmit = (e) => {
+      e.preventDefault();
+      editMenuInRestaurant({menuid,menu_id,menu_key_name,name,image,description,price,category,food_type,cuisine,keys,ingredients,add_character,is_customisable,profile_id})
+      .then(res => {
+          if(res.data){
+            setsucessMenuCreate(true)
+          }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
+
+
+    const onDeleteMenuSubmit = (e,id) => {
+      e.preventDefault();
+      deleteMenuInRestaurant({id}).then(res => {
+        if(res)
+        setsucessMenuCreate(true)
+
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
     return(
         <div>
         <div>
@@ -148,7 +209,7 @@ function CreateProduct() {
                 <form className="forms-sample">
                 <Form.Group>
                     <label htmlFor="exampleSelectGender">Add Category Type</label>
-                    <select className="form-control" onChange={(e) => setcategory(e.target.value)} id="exampleSelectGender">
+                    <select className="form-control" value={category} onChange={(e) => setcategory(e.target.value)} id="exampleSelectGender">
                     <option value="Category One" style={{color: 'brown'}}>Category One</option>
                     <option value="Category Two" style={{color: 'brown'}}>Category Two</option>
                     <option value="Category Three" style={{color: 'brown'}}>Category Three</option>
@@ -170,7 +231,15 @@ function CreateProduct() {
            
                   </div>
                  
+                  <div>
+                    {image ? (
+                      <img src={image} style={{height: 200,width: 200}}/>
+                    ) : (
+                      null
+                      )
 
+                    }
+                  </div>
 
                   {resLogoUploadStatus ? (
                     <Alert severity="success">Upload Successful!</Alert>
@@ -198,24 +267,24 @@ function CreateProduct() {
                       
               <Form.Group>
                     <label htmlFor="exampleInputName1">Add Name</label>
-                    <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Name" onChange={ (e) => setname(e.target.value)}/>
+                    <Form.Control type="text" className="form-control" value={name} id="exampleInputName1" placeholder="Name" onChange={ (e) => setname(e.target.value)}/>
                   </Form.Group>
                       
               <Form.Group>
                     <label htmlFor="exampleInputName1">Add Menu Key Id</label>
-                    <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Menu Key Id" onChange={ (e) => setmenu_key_name(e.target.value)}/>
+                    <Form.Control type="text" className="form-control" value={menu_key_name} id="exampleInputName1" placeholder="Menu Key Id" onChange={ (e) => setmenu_key_name(e.target.value)}/>
                   </Form.Group>
                   <Form.Group>
                     <label htmlFor="exampleInputName1">Add description</label>
-                    <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Description" onChange={ (e) => setdescription(e.target.value)}/>
+                    <Form.Control type="text" className="form-control" value={description} id="exampleInputName1" placeholder="Description" onChange={ (e) => setdescription(e.target.value)}/>
                   </Form.Group>
                   <Form.Group>
                     <label htmlFor="exampleInputName1"> Add Price</label>
-                    <Form.Control type="number" className="form-control"  id="exampleInputName1" placeholder="Price in INR" onChange={ (e) => setprice(e.target.value)}/>
+                    <Form.Control type="number" className="form-control" value={price} id="exampleInputName1" placeholder="Price in INR" onChange={ (e) => setprice(e.target.value)}/>
                   </Form.Group>
                   <Form.Group>
                     <label htmlFor="exampleSelectGender">Add Food Type</label>
-                    <select className="form-control" onChange={(e) => setfood_type(e.target.value)} id="exampleSelectGender">
+                    <select className="form-control" onChange={(e) => setfood_type(e.target.value)} id="exampleSelectGender" value={food_type}>
                     <option value="Veg" style={{color: 'brown'}}>Veg</option>
                     <option value="Non-Veg" style={{color: 'brown'}}>Non-Veg</option>
 
@@ -227,7 +296,7 @@ function CreateProduct() {
                   </Form.Group>   
                   <Form.Group>
                     <label htmlFor="exampleSelectGender">Add Cuisine</label>
-                    <select className="form-control" onChange={(e) => setcuisine(e.target.value)} id="exampleSelectGender">
+                    <select className="form-control" onChange={(e) => setcuisine(e.target.value)} id="exampleSelectGender" value={cuisine}>
                     <option value="Indian" style={{color: 'brown'}}>Indian</option>
                     <option value="Chinese" style={{color: 'brown'}}>Chinese</option>
 
@@ -240,7 +309,7 @@ function CreateProduct() {
 
                   <FormControl component="fieldset">
       <FormLabel component="legend">Is Customisable</FormLabel>
-      <RadioGroup row aria-label="gender" name="row-radio-buttons-group" onChange={(e) => setis_customisable(e.target.value)}>
+      <RadioGroup row aria-label="gender" name="row-radio-buttons-group" onChange={(e) => setis_customisable(e.target.value)} value={is_customisable}>
         <FormControlLabel value={1} control={<Radio />} label="Yes" />
         <FormControlLabel value={2} control={<Radio />} label="No" />
     
@@ -248,7 +317,7 @@ function CreateProduct() {
     </FormControl>
     <Form.Group>
                     <label htmlFor="exampleSelectGender">Add Charactor</label>
-                    <select className="form-control" onChange={(e) => setadd_character(e.target.value)} id="exampleSelectGender">
+                    <select className="form-control" onChange={(e) => setadd_character(e.target.value)} id="exampleSelectGender" value={add_character}>
                     <option value={1} style={{color: 'brown'}}>Hot</option>
                     <option value={2} style={{color: 'brown'}}>Chill</option>
                     <option value={3} style={{color: 'brown'}}>Cold</option>
@@ -261,15 +330,32 @@ function CreateProduct() {
                   </Form.Group>  
                   <Form.Group>
                     <label htmlFor="exampleInputName1"> Add Ingredience</label>
-                    <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Add Ingredience" onChange={ (e) => setdummy_ingredience(e.target.value)}/>
+                    <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Add Ingredience" onChange={ (e) => setdummy_ingredience(e.target.value)}
+                    />
                   </Form.Group>
                   <button  style={{marginBottom:"5rem"}} type="submit" className="btn btn-primary mr-2" onClick={addIngInList}>Add Ingredience</button>
                   {ingredients ? (<p>{ingredients}</p>): (null)}
         
 
+                        {menuEditStatus ? (
+                          <>
+                          <button type="submit" className="btn btn-success mr-2" onClick={onEditMenuSubmit}>Done Edit</button>
+                  <button onClick={() => setmenuEditStatus(false)} className="btn btn-dark">Cancel Editing</button>
+                          </>
+                            
 
-                  <button type="submit" className="btn btn-primary mr-2" onClick={onMenuCreate}>Submit</button>
-                  <button className="btn btn-light">Cancel</button>
+
+                        ) : (
+                          <>
+                          
+                          <button type="submit" className="btn btn-primary mr-2" onClick={onMenuCreate}>Create Menu</button>
+                  <button onClick={() => setmenuEditStatus(false)} className="btn btn-light">Cancel</button>
+
+                          </>
+                        )
+
+                        }
+                  
                 </form>
               </div>
             </div>
@@ -309,11 +395,11 @@ function CreateProduct() {
                     <td> {M[1].price}</td>
                     <td> {M[1].menu_key_name}</td>
 
-                    <td> <button type="button" className="btn btn-primary" onClick={() => {}}>Edit</button>
+                    <td> <button type="button" className="btn btn-primary" onClick={() => {editMenu(M[1]._id)}}>Edit</button>
 
                     </td>
                     <td>
-                        <button type="button" className="btn btn-danger" onClick={() => {}}>Delete</button>
+                        <button type="button" className="btn btn-danger" onClick={(e) => {onDeleteMenuSubmit(e,M[1]._id)}}>Delete</button>
                       </td>
                  
                 </tr>

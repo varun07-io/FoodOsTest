@@ -3,9 +3,25 @@ import { Link, withRouter } from 'react-router-dom';
 import { Collapse } from 'react-bootstrap';
 import { Dropdown } from 'react-bootstrap';
 import { Trans } from 'react-i18next';
+import { getProfileData } from '../apiHandler/api';
 
 class Sidebar extends Component {
   state = {};
+
+
+  componentDidMount = () => {
+    getProfileData().then(res => {
+      console.log("My: ",res)
+      this.setState({res_name: res.data.restaurant_name});
+      this.setState({res_image:res.data.restaurant_logo});
+      this.setState({res_status:true});
+
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
 
   toggleMenuState(menuState) {
     if (this.state[menuState]) {
@@ -65,12 +81,33 @@ class Sidebar extends Component {
                 <Dropdown.Toggle className="nav-link user-switch-dropdown-toggler p-0 toggle-arrow-hide bg-transparent border-0 w-100">
                   <div className="d-flex justify-content-between align-items-start">
                     <div className="profile-image">
+                      {this.state.res_image ? (
+                    <img className="img-xs rounded-circle" src={ this.state.res_image} alt="profile" />
+
+                      ) : (
                     <img className="img-xs rounded-circle" src={ require("../../assets/images/faces/face8.jpg")} alt="profile" />
+
+                      )
+
+                      }
                       <div className="dot-indicator bg-success"></div>
                     </div>
                     <div className="text-wrapper">
-                      <p className="profile-name">Restaurant Name</p>
-                      <p className="designation">Restaurant Status</p>
+                      {this.state.res_name && this.state.res_image ? (
+                        <>
+            <p className="profile-name">{this.state.res_name}</p>
+           {this.state.res_status ? (<p className="designation">Online</p>) : (<p className="designation">Offline</p>)} 
+            
+            </>
+                      ) : (
+                        <>
+                        <p className="profile-name">Restaurant Name</p>
+                        <p className="designation">Restaurant Status</p>
+                        </>
+                      )
+
+                      }
+          
                     </div>
                     
                   </div>
