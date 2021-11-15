@@ -4,7 +4,7 @@ import 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid';
 import firebase from "firebase/app";
 import Spinner1 from './helper/Spinner';
-import { createBranch, editCategory, editBranchPassword, deleteCategory, getAllBranch, getACategory } from '../apiHandler/api';
+import { createBranch, editCategory, editBranchPassword, deleteCategory, getAllBranch, getACategory, getAllMenus } from '../apiHandler/api';
 
 import Toast from "./helper/Toast"
 import { showMenu } from 'react-contextmenu';
@@ -15,6 +15,17 @@ function Schedule() {
 
 
 
+    const [allMenus, setallMenus] = useState([]);
+
+    useEffect(() => {
+      getAllMenus().then(res => {
+        console.log(res.data.all_menu)
+        setallMenus(res.data.all_menu)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }, [])
 
 
 
@@ -27,8 +38,16 @@ function Schedule() {
             <div className="card">
               <div className="card-body">
                
-                <h4 className="card-title">Add Details</h4>
-                <form className="forms-sample">
+              
+                <div>
+                
+                  {allMenus.length > 0 && allMenus.forEach(element => {
+                    console.log(element.name)
+                      return <h4>Product : {element.name}</h4>
+                  })}
+                </div>
+
+                {/* <form className="forms-sample">
  
                 <Form.Group>
                     <label htmlFor="exampleInputName1">Schedule Name</label>
@@ -46,7 +65,7 @@ function Schedule() {
      
                   <button type="submit" className="btn btn-primary mr-2">Submit</button>
                   <button className="btn btn-light">Cancel</button>
-                </form>
+                </form> */}
               </div>
             </div>
           </div>
@@ -55,23 +74,54 @@ function Schedule() {
         <div className="col-lg-12 grid-margin stretch-card">
         <div className="card">
         <div className="card-body">
-            <h4 className="card-title">All Schedules</h4>
+        <h4>
+                    See All Menu here
+                  </h4>
             {/* <p className="card-description"> Add className <code>.table-striped</code>
             </p> */}
             <div className="table-responsive">
             <table className="table table-striped">
                 <thead>
                 <tr>
-                    <th> name</th>
-                    <th> time limit </th>
+                    <th> Menu Image</th>
+                    <th> Menu Id </th>
                    
-                    <th> Edit </th>
-                    <th> Delete </th>
+                    <th> Menu Name </th>
+                    <th> Schedule Morning </th>
+                    <th> Schedule Noon </th>
+                    <th> Schedule Brunch </th>
+                    <th> Schedule Dinner </th>
                 </tr>
                 </thead>
                 <tbody>
  
+                {allMenus && Object.entries(allMenus).map(M => {
+                  console.log(M[1]);
+                  return (
+                    <tr  key={M[1]._id}>
+                    <td className="py-1">
+                    <img src={ M[1].image} alt="user icon" />
+                    </td>
+                    <td> none </td>
+                    <td> {M[1].name}</td>
 
+                    <td> <button type="button" className="btn btn-success" onClick={() => {}}>yes</button>
+
+                    </td>
+                    <td>
+                        <button type="button" className="btn btn-danger" onClick={() => {}}>No</button>
+                      </td>
+                    <td>
+                        <button type="button" className="btn btn-danger" onClick={() => {}}>No</button>
+                      </td>
+                    <td>
+                        <button type="button" className="btn btn-danger" onClick={() => {}}>No</button>
+                      </td>
+                </tr>
+                  )
+                })
+
+                }
                </tbody>
             </table>
             </div>
