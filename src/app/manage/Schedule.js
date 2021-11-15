@@ -37,36 +37,42 @@ function Schedule() {
             <div className="col-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-               
+               <h3>
+                 See All Added Schedule Here
+               </h3>
               
-                <div>
+              <div className="table-responsive">
+            <table className="table table-striped">
+                <thead>
+                <tr>
+                    <th> Schedule Morning</th>
+                    <th> Schedule Noon </th>
+                   
+                    <th> Schedule Brunch </th>
+                    <th> Schedule Dinner </th>
                 
-                  {allMenus.length > 0 && allMenus.forEach(element => {
-                    console.log(element.name)
-                      return <h4>Product : {element.name}</h4>
-                  })}
-                </div>
-
-                {/* <form className="forms-sample">
+                </tr>
+                </thead>
+                <tbody>
  
-                <Form.Group>
-                    <label htmlFor="exampleInputName1">Schedule Name</label>
-                    <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Name" />
-                  </Form.Group>
-                <Form.Group>
-                    <label htmlFor="exampleSelectGender">Schedule time Limit</label>
-                    <select className="form-control" id="exampleSelectGender" >
-               
-                      
-                    </select>
-                 
+                {allMenus && Object.entries(allMenus).map(M => {
+                  console.log(M[1]._id.slice());
+                  return (
+                    <tr  key={M[1]._id}>
+                    <td className="py-1">
+                    <img src={ M[1].image} alt="user icon" />
+                    </td>
+                    <td> <b>{M[1].menu_id}</b> </td>
+                    <td> {M[1].name}</td>
+                </tr>
+                  )
+                })
 
-                  </Form.Group>
-     
-                  <button type="submit" className="btn btn-primary mr-2">Submit</button>
-                  <button className="btn btn-light">Cancel</button>
-                </form> */}
-              </div>
+                }
+               </tbody>
+            </table>
+            </div>
+            </div>
             </div>
           </div>
         </div>
@@ -102,7 +108,8 @@ function Schedule() {
                     <td className="py-1">
                     <img src={ M[1].image} alt="user icon" />
                     </td>
-                    <td> none </td>
+                    <td> <b>{M[1].menu_id}</b> </td>
+                    
                     <td> {M[1].name}</td>
 
                     <td> <button type="button" className="btn btn-success" onClick={() => {}}>yes</button>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { createMenuInRestaurant, getProfileId } from '../apiHandler/api';
+import { createMenuInRestaurant, getAllMenus, getProfileId } from '../apiHandler/api';
 import Spinner1 from './helper/Spinner';
 import 'firebase/storage'
 import firebase from "firebase/app";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import uniqueRandom from 'unique-random';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import {Alert} from '@mui/material';
@@ -15,6 +16,8 @@ function CreateProduct() {
 
 
     const [name, setname] = useState('');
+    const [menu_id, setmenu_id] = useState(uniqueRandom(100000, 999999));
+    const [menu_key_name, setmenu_key_name] = useState('');
     const [image, setimage] = useState('');
     const [description, setdescription] = useState('');
     const [category, setcategory] = useState('');
@@ -36,6 +39,7 @@ function CreateProduct() {
     const [dummy_keys, setdummy_keys] = useState('');
     const [dummy_ingredience, setdummy_ingredience] = useState('')
 
+    const [sucessMenuCreate, setsucessMenuCreate] = useState(false);
 
 
     useEffect(() => {
@@ -48,6 +52,20 @@ function CreateProduct() {
       })
     }, [])
 
+    
+
+    
+    const [allMenus, setallMenus] = useState([]);
+
+    useEffect(() => {
+      getAllMenus().then(res => {
+        console.log(res.data.all_menu)
+        setallMenus(res.data.all_menu)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }, [sucessMenuCreate])
 
     const addKeysInList = (e) => {
       e.preventDefault();
@@ -100,10 +118,9 @@ function CreateProduct() {
      )
     }
 
-    const [sucessMenuCreate, setsucessMenuCreate] = useState(false);
     const onMenuCreate = (e) => {
       e.preventDefault();
-      createMenuInRestaurant({name,image,description,price,category,food_type,cuisine,keys,ingredients,add_character,is_customisable,profile_id})
+      createMenuInRestaurant({menu_id,menu_key_name,name,image,description,price,category,food_type,cuisine,keys,ingredients,add_character,is_customisable,profile_id})
       .then(res => {
           if(res.data){
             setsucessMenuCreate(true)
@@ -183,6 +200,11 @@ function CreateProduct() {
                     <label htmlFor="exampleInputName1">Add Name</label>
                     <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Name" onChange={ (e) => setname(e.target.value)}/>
                   </Form.Group>
+                      
+              <Form.Group>
+                    <label htmlFor="exampleInputName1">Add Menu Key Id</label>
+                    <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Menu Key Id" onChange={ (e) => setmenu_key_name(e.target.value)}/>
+                  </Form.Group>
                   <Form.Group>
                     <label htmlFor="exampleInputName1">Add description</label>
                     <Form.Control type="text" className="form-control"  id="exampleInputName1" placeholder="Description" onChange={ (e) => setdescription(e.target.value)}/>
@@ -258,40 +280,48 @@ function CreateProduct() {
         <div className="card">
         <div className="card-body">
             
-            <div className="table-responsive">
+        <div className="table-responsive">
             <table className="table table-striped">
                 <thead>
                 <tr>
-                    <th>Logo </th>
-                    <th> Menu type </th>
-                    <th> key </th>
-                    <th> description </th>
-                    <th> price </th>
-                    <th> schedule </th>
-                    <th> Tags </th>
+                    <th> Menu Image</th>
+                    <th> Menu Id </th>
+                   
+                    <th> Menu Name </th>
+                    <th> Menu Price </th>
+                    <th> Menu Key Id </th>
                     <th> Edit </th>
                     <th> Delete </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+ 
+                {allMenus && Object.entries(allMenus).map(M => {
+                  console.log(M[1]);
+                  return (
+                    <tr  key={M[1]._id}>
+                    <td className="py-1">
+                    <img src={ M[1].image} alt="user icon" />
+                    </td>
+                    <td> <b>{M[1].menu_id}</b> </td>
                     
-                    <td> null</td>
-                    <td> null</td>
-                    <td> null</td>
-                    <td> null</td>
-                    <td> null</td>
-                    <td> null</td>
-                    <td> null</td>
-                    <td> <button type="button" className="btn btn-primary">Edit</button>
+                    <td> {M[1].name}</td>
+                    <td> {M[1].price}</td>
+                    <td> {M[1].menu_key_name}</td>
+
+                    <td> <button type="button" className="btn btn-primary" onClick={() => {}}>Edit</button>
 
                     </td>
                     <td>
-                        <button type="button" className="btn btn-danger">Delete</button>
+                        <button type="button" className="btn btn-danger" onClick={() => {}}>Delete</button>
                       </td>
+                 
                 </tr>
-               
-                </tbody>
+                  )
+                })
+
+                }
+               </tbody>
             </table>
             </div>
         </div>
