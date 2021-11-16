@@ -30,6 +30,13 @@ function CreateProduct() {
     const [is_customisable, setis_customisable] = useState(false);
     const [profile_id, setprofile_id] = useState('');
 
+    const [is_morning, setis_morning] = useState(false);
+    const [is_noon, setis_noon] = useState(false);
+    const [is_brunch, setis_brunch] = useState(false);
+    const [is_dinner, setis_dinner] = useState(false);
+
+    
+
     const [File, setFile] = useState(null);
     const [logoUrl, setlogoUrl] = useState('');
     const [logoProgress, setlogoProgress] = useState(false);
@@ -120,10 +127,11 @@ function CreateProduct() {
 
     const onMenuCreate = (e) => {
       e.preventDefault();
-      createMenuInRestaurant({menu_id,menu_key_name,name,image,description,price,category,food_type,cuisine,keys,ingredients,add_character,is_customisable,profile_id})
+      createMenuInRestaurant({menu_id,menu_key_name,name,image,description,price,category,food_type,cuisine,keys,ingredients,add_character,is_customisable,profile_id,is_morning,is_noon,is_brunch,is_dinner})
       .then(res => {
           if(res.data){
             setsucessMenuCreate(true)
+            // TODO Set all Empty States
           }
       })
       .catch(err => {
@@ -133,7 +141,7 @@ function CreateProduct() {
 
     const alertSucess = () => {
       if(sucessMenuCreate)
-      return <Alert severity="success">Mebu Created Successful!</Alert>
+      return <Alert severity="success">Menu Created Successful!</Alert>
     }
 
     const [menuEditStatus, setmenuEditStatus] = useState(false);
@@ -160,6 +168,11 @@ function CreateProduct() {
           setingredients(res.data.data[0].ingredients)
           setadd_character(res.data.data[0].add_character)
           setprofile_id(res.data.data[0].profile_id)
+
+          setis_morning(res.data.data[0].is_morning)
+          setis_noon(res.data.data[0].is_noon)
+          setis_brunch(res.data.data[0].is_brunch)
+          setis_dinner(res.data.data[0].is_dinner)
       })
       .catch(err => {
         console.log(err)
@@ -336,6 +349,43 @@ function CreateProduct() {
                   <button  style={{marginBottom:"5rem"}} type="submit" className="btn btn-primary mr-2" onClick={addIngInList}>Add Ingredience</button>
                   {ingredients ? (<p>{ingredients}</p>): (null)}
         
+
+                      <div style={{backgroundColor: '#6AC47E',padding:10,borderRadius:15, marginBottom:52,flexDirection:'column'}}>
+                      <FormControl component="fieldset" style={{marginRight: 75}}>
+      <FormLabel component="legend">Morning Schedule</FormLabel>
+      <RadioGroup row aria-label="Is Morning Menu" name="row-radio-buttons-group" onChange={(e) => setis_morning(e.target.value)} value={is_morning}>
+        <FormControlLabel value={true} control={<Radio />} label="Yes" />
+        <FormControlLabel value={false} control={<Radio />} label="No" />
+    
+      </RadioGroup>
+    </FormControl>
+                      <FormControl component="fieldset" style={{marginRight: 75}}>
+      <FormLabel component="legend">Noon Schedule</FormLabel>
+      <RadioGroup row aria-label="Is Morning Menu" name="row-radio-buttons-group" onChange={(e) => setis_noon(e.target.value)} value={is_noon}>
+        <FormControlLabel value={true} control={<Radio />} label="Yes" />
+        <FormControlLabel value={false} control={<Radio />} label="No" />
+    
+      </RadioGroup>
+    </FormControl>
+                      <FormControl component="fieldset" style={{marginRight: 75}}>
+      <FormLabel component="legend">Brunch Schedule</FormLabel >
+      <RadioGroup row aria-label="Is Morning Menu" name="row-radio-buttons-group" onChange={(e) => setis_brunch(e.target.value)} value={is_brunch}>
+        <FormControlLabel value={true} control={<Radio />} label="Yes" />
+        <FormControlLabel value={false} control={<Radio />} label="No" />
+    
+      </RadioGroup>
+    </FormControl>
+                      <FormControl component="fieldset">
+      <FormLabel component="legend">Dinner Schedule</FormLabel>
+      <RadioGroup row aria-label="Is Morning Menu" name="row-radio-buttons-group" onChange={(e) => setis_dinner(e.target.value)} value={is_dinner}>
+        <FormControlLabel value={true} control={<Radio />} label="Yes" />
+        <FormControlLabel value={false} control={<Radio />} label="No" />
+    
+      </RadioGroup>
+    </FormControl>
+                      </div>
+
+
 
                         {menuEditStatus ? (
                           <>
