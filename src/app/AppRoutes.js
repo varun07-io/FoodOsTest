@@ -16,10 +16,10 @@ import AdminRouter from './RouterHelper/AdminRouter'
 import CreateProduct from './manage/CreateProduct';
 import Package from './manage/Package';
 import Wallet from './manage/Wallet';
+import UserCompletion from './manage/UserCompletion'
 import AdminDashboard from './admin/AdminDashboard';
 // Branch Route
 
-import UserCompletion from '../app/manage/UserCompletion.js'
 
 // const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
@@ -51,7 +51,6 @@ class AppRoutes extends Component {
       <Suspense fallback={<Spinner/>}>
         <Switch>
           <RestaurantRoute exact path="/" component={ Dashboard } />
-          <RestaurantRoute exact path="/profile" component={ Package } />
           <RestaurantRoute path="/manage/createmenu" component={ CreateMenu } />
           <RestaurantRoute path="/manage/createproduct" component={  CreateProduct } />
           <RestaurantRoute path="/manage/wallet" component={ Wallet } />
@@ -59,7 +58,7 @@ class AppRoutes extends Component {
           <RestaurantRoute path="/manage/package" component={ Package } />
           
           <Route path="/login" component={ Login } />
-          <Route exact path="/profile" component={ Package } />
+          <Route exact path="/profile" component={ UserCompletion } />
 
 
 
