@@ -196,3 +196,19 @@ export const getAMenu = async(menuId) => {
             console.log(err)
         })
 }
+
+
+
+// *? Create or Edit Schedule
+
+export const createSchedule = async(data) => {
+    let Token = await getUserToken();
+    return axios.post(`${API}/add/schedule`, data, { headers: { Authorization: `Bearer ${Token}` } })
+        .then(res => {
+            return res
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+}

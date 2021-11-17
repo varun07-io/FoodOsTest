@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid';
+import {Alert} from '@mui/material';
+
 import firebase from "firebase/app";
 import Spinner1 from './helper/Spinner';
-import { createBranch, editCategory, editBranchPassword, deleteCategory, getAllBranch, getACategory, getAllMenus } from '../apiHandler/api';
+import { createBranch, editCategory, editBranchPassword, deleteCategory, getAllBranch, getACategory, getAllMenus, createSchedule } from '../apiHandler/api';
 
 import Toast from "./helper/Toast"
 import { showMenu } from 'react-contextmenu';
@@ -33,8 +35,19 @@ function Schedule() {
     const [brunch_order, setbrunch_order] = useState([]);
     const [dinner_order, setdinner_order] = useState([]);
 
+    const [isSuccess, setisSuccess] = useState(false)
+
     const addScheduleToSell = (e) => {
       e.preventDefault();
+      createSchedule({morning_order}).then(res => {
+        setisSuccess(true)
+        setTimeout(() => {
+          setisSuccess(false)
+        }, 3000);
+      })  
+      .catch(err => {
+        console.log(err)
+      })
 
     }
 
@@ -47,7 +60,11 @@ function Schedule() {
     return(
         <div>
         <div>
-       
+        {isSuccess ? (
+             <Alert severity="success">Schedule Created Successful!</Alert>
+        ) : (
+          null
+        )}
             <h3>Create Schedule</h3>
             <div className="col-12 grid-margin stretch-card">
             <div className="card">
